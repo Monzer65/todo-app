@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Frontend Mentor | Todo app</title>
+</head>
+<body class="">
+  <div class="wrapper">
+    <header>
+      <h2 id="title">Todo</h2>
+      <img id="theme-switch" src="images/icon-moon.svg" alt="">
+    </header>
+    <div class="add-new-todo-container">
+      <label class="todo add-todo-btn">
+        <input type="checkbox"  class="chk" onclick="handleTodo()">
+        <span class="checkmark"><img src="images/icon-check.svg" alt=""></span>
+      </label>
+      <input type="text" class="new-todo-text" placeholder="Create a new todo...">
+    </div>
+
+    <div class="container">
+      <div class="todo-list"></div>
+      <footer>
+        <div class="items-left">
+          <p><span id="items-left">5 </span> items left</p>
+        </div>
+          <div class="show-todos">
+            <p>All</p>
+            <p>Active</p>
+            <p>Completed</p>
+          </div>
+          <div class="clear">
+            <p>Clear Completed</p>
+          </div>
+      </footer>
+    </div>
+    <p class="drag">Drag and drop to reoder list</p>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

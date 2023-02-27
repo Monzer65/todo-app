@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family: 'Josefin Sans', sans-serif;  
+}
+body{
+    background: url(images/bg-desktop-light.jpg) no-repeat;
+    padding: 4.5rem 2.5rem;
+}
+.wrapper{
+    max-width: 541px;
+    margin: auto;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header #title{
+    font-weight: 700;
+    font-size: clamp(1.6rem, 5vw, 2.5rem);
+    text-transform: uppercase;
+    color: white;
+    box-sizing: content-box;
+    letter-spacing: .925rem;
+    margin-top: .1rem;
+}
+header #theme-switch{
+    max-width: 32px;
+    max-height: 32px;
+    margin-top: -.3rem;
+    cursor: pointer;
+}
+.add-new-todo-container{
+    display: flex;
+    position: relative;
+    padding: .1rem 0 0 1.25rem;
+    border-radius: 5px;
+    background-color: white;
+    margin: 2.25rem 0 1.5rem;
+    box-shadow: 0 1rem 1rem hsla(233, 11%, 84%, .3);
+}
+.new-todo-text{
+    font-family: 'Josefin Sans', sans-serif;  
+    font-size: clamp(12px, 3vw, 18px);
+    color: hsl(235, 19%, 35%);
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    margin-top: .1rem;
+}​
+.checkmark img{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    display: none;
+}
+.container{
+    background-color: white;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0 1rem;
+    box-shadow: 0 2rem 2rem hsla(233, 11%, 84%, .5);
+}
+.todo-list{
+    display: flex;
+    flex-direction: column-reverse;
+}
+.todo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(12px, 3vw, 18px);
+    color: hsl(235, 19%, 35%);
+    position:relative;
+    cursor: pointer;
+    user-select: none;
+    padding: 1.25rem 0 1.2rem 3.25rem;
+}
+.todo.complete{
+    text-decoration:line-through;
+    color: rebeccapurple;
+}
+.todo input{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark{
+    position: absolute;
+    top:30%;
+    left: 1.8%;
+    height: 1.5rem;
+    width: 1.5rem;
+    /* background-color: white; */
+    border: 1px solid hsl(236, 33%, 92%);
+    border-radius: 100%;
+}
+.new-todo:hover input ~ .checkmark::before,
+.todo:hover input ~ .checkmark::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px; 
+    background:linear-gradient(145deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    border-radius: 100%;
+    -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude; 
+}
+.todo input:checked ~ .checkmark {
+    background: linear-gradient(145deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%)) no-repeat;
+}
+.todo .checkmark img{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    display: none;
+}
+.todo input:checked ~ .checkmark img{
+    display: block;
+}
+.delete{
+    display: none;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+}
+.todo:hover .delete{
+    display: block;
+}
+hr{
+    border: none;
+    border-bottom: 1px solid hsl(236, 33%, 92%);
+    margin: .1rem -1rem;
+    
+}
+footer{
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(12px, 3vw, 13px);
+    padding: 1rem .5rem;
+    color: hsl(236, 9%, 61%);
+}
+footer p{
+    cursor: pointer;
+}
+footer p:hover{
+    color: hsl(235, 19%, 35%);
+}
+.show-todos{
+    font-weight: 700;
+    font-size: clamp(10px, 3vw, 14px);
+    display: flex;
+    margin-left: 1.5rem;
+    gap: 1rem;
+}
+.show-todos p:active{
+    color: hsl(220, 98%, 61%);
+}
+.drag{
+    font-size: 14px;
+    color: hsl(236, 9%, 61%);
+    text-align: center;
+    margin-top: 3.25rem;
+}
+
+
+
+body.dark{
+    background: url(images/bg-desktop-dark.jpg) no-repeat hsl(235, 21%, 11%);
+}
+body.dark .add-new-todo-container{
+    background-color: hsl(235, 24%, 19%);
+}
+body.dark .new-todo-text{
+    color: hsl(234, 39%, 85%);
+    background-color: hsl(235, 24%, 19%);
+}
+body.dark .container{
+    background-color: hsl(235, 24%, 19%);
+    box-shadow: 0 2rem 2rem hsla(235, 21%, 11%, .5);
+}
+body.dark .todo{
+    color: hsl(234, 39%, 85%);
+}
+body.dark .checkmark{
+    border-color: hsl(237, 14%, 26%);
+}
+body.dark hr{
+    border-color: hsl(237, 14%, 26%);
+}
+body.dark footer{
+    color: hsl(234, 11%, 52%);
+}
+body.dark .drag{
+    color: hsl(234, 11%, 52%);
+}
+@media screen and (max-width:769px) {
+    body{
+        background: url(images/bg-mobile-light.jpg) no-repeat;
+        background-size: 100%;
+        padding: 2.9rem 1.5rem;
+    }
+    body.dark{
+        background: url(images/bg-mobile-dark.jpg) no-repeat hsl(235, 21%, 11%);
+        background-size: 100%;
+    }
+    header #title{
+        font-size: clamp(1.65rem, 6vw, 2.5rem);
+        letter-spacing: .65rem;
+    }
+    header #theme-switch{
+        max-width: 1.25rem;
+        max-height: 1.25rem;
+    }
+    .add-new-todo-container{
+        padding: 0;
+        padding-left: 1rem;
+        margin: 2.1rem 0 1rem;
+    }
+    .new-todo-text{
+        padding: 1rem 0;
+        margin-top: .15rem;
+        border-radius: 10px;
+    }
+    .todo{
+        padding: 1.1rem 0 1.1rem 2.25rem;
+    }
+    .checkmark{
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+    .todo .checkmark img{
+        left: 25%;
+        max-width: 50%;
+    }
+    .delete{
+        max-width: clamp(.5rem, 3.25vw, 1rem);
+    }
+    footer{
+        position: relative;
+        padding: 1rem 0;
+        margin: 0;
+    }
+    .show-todos{
+        position: absolute;
+        font-size: clamp(14px, 3.25vw, 15px);
+        bottom: -140% ;
+        left: -5%;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        width: 110%;
+        height: 3rem;
+        border-radius: 5px;
+        box-shadow: 0 2rem 2rem hsla(233, 11%, 84%, .5);
+    }
+    body.dark .show-todos{
+        background-color: hsl(235, 24%, 19%);
+        box-shadow: 0 2rem 2rem hsla(235, 21%, 11%, .5);
+    }
+    .drag{
+        margin: 6.5rem auto 1.25rem;
+    }
+}
+
