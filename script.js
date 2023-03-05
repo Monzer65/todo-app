@@ -13,23 +13,29 @@ themeSwitch.addEventListener('click', () =>{
     document.body.classList.toggle('dark');
 });
 
+window.addEventListener("keydown", (event) => {
+    switch (event.key) {
+        case "Enter": 
+            addTodoBtn.click();
+        break;
+    };
+});
+
+const allItems = [];
+function updateItems(){
+    itemsLeft.innerHTML = `${allItems.length} items left`
+}
+
 
 function handleTodo(){
-    
-
     // add todo
     document.querySelector('.chk').checked = false;
     if(todoInput.value == ''){
         return
     };
-    let items = todoList.querySelectorAll('.todo').length+1;
-    function updateItemsLeft(){
-        itemsLeft.innerHTML = `${items} items left`
-    }
-    updateItemsLeft()
-    let newHr = document.createElement('hr');
-    newHr.className = 'new-hr';
-    todoList.append(newHr);
+
+    // let newHr = document.createElement('hr');
+    // newHr.className = 'new-hr';
     let newTodo = document.createElement('label');
     newTodo.className = 'todo';
     newTodo.setAttribute('draggable', 'true');
@@ -37,36 +43,27 @@ function handleTodo(){
     ${todoInput.value}
     <input type="checkbox" class='chk'>
     <span class="checkmark"><img src="images/icon-check.svg" alt=""></span>
-    <img class="delete" src="images/icon-cross.svg" alt="">`;
+    <img class="delete" src="images/icon-cross.svg" alt="">
+    <div class='new-hr'></div>
+    `;
+    // newTodo.appendChild(newHr);
     todoList.append(newTodo);
-
+    todoInput.value = ''
+    allItems.push(newTodo);
+    updateItems()
     // darg & drop
     newTodo.addEventListener('dragstart', handleDragStart);
-    // newTodo.addEventListener('dragend', handleDragEnd);
     newTodo.addEventListener('dragover', handleDragOver);
-    // newTodo.addEventListener('dragenter', handleDragEnter);
-    // newTodo.addEventListener('dragleave', handleDragLeave);
     newTodo.addEventListener('drop', handleDrop);
-
     function handleDragStart(e) {
-        // this.style.opacity = '..4';
         dragSrcEl = this;
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/html', this.innerHTML);
     }
-    // function handleDragEnd(e) {
-    //     this.style.opacity = '1';
-    // }
     function handleDragOver(e) {
         e.preventDefault();
         return false;
     }
-    // function handleDragEnter(e) {
-    //     this.classList.add('over');
-    // }
-    // function handleDragLeave(e) {
-    //     this.classList.remove('over');
-    // }
     function handleDrop(e) {
         e.stopPropagation();
         if (dragSrcEl !== this) {
@@ -78,20 +75,28 @@ function handleTodo(){
     
     // complete todo
     let checkBox = newTodo.querySelector(".chk");
-
     checkBox.addEventListener('click', ()=>{
         if (checkBox.checked == true){
             newTodo.classList.add('complete')
+            allItems.pop(newTodo);
+            updateItems()
         } else {
             newTodo.classList.remove('complete')
+            allItems.push(newTodo);
+            updateItems()
         }
+        
     });
     
     // delete todo
-    newTodo.querySelector('.delete').addEventListener('click', ()=>{
-        newTodo.remove()
-        newHr.remove()
+    let deleteBtn = newTodo.querySelector('.delete')
+    deleteBtn.addEventListener('click', ()=>{
+        deleteBtn.parentElement.remove()
+        // deleteBtn.closest('.todo').querySelector('.new-hr').remove()
+        allItems.pop(newTodo);
+        updateItems()
     });
+
 }
 
 
