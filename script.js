@@ -26,7 +26,6 @@ function updateItems(){
     itemsLeft.innerHTML = `${allItems.length} items left`
 }
 
-
 function handleTodo(){
     // add todo
     document.querySelector('.chk').checked = false;
@@ -49,7 +48,7 @@ function handleTodo(){
     // newTodo.appendChild(newHr);
     todoList.append(newTodo);
     todoInput.value = ''
-    allItems.push(newTodo);
+    allItems.push(1);
     updateItems()
     // darg & drop
     newTodo.addEventListener('dragstart', handleDragStart);
@@ -78,25 +77,68 @@ function handleTodo(){
     checkBox.addEventListener('click', ()=>{
         if (checkBox.checked == true){
             newTodo.classList.add('complete')
-            allItems.pop(newTodo);
+            allItems.pop(1);
             updateItems()
         } else {
             newTodo.classList.remove('complete')
-            allItems.push(newTodo);
+            allItems.push(1);
             updateItems()
         }
-        
     });
     
     // delete todo
     let deleteBtn = newTodo.querySelector('.delete')
     deleteBtn.addEventListener('click', ()=>{
         deleteBtn.parentElement.remove()
-        // deleteBtn.closest('.todo').querySelector('.new-hr').remove()
-        allItems.pop(newTodo);
+        if(newTodo.classList.contains('complete')){
+            allItems.pop(1)
+        }
+        if(itemsLeft.innerHTML = `0 items left`){
+            return
+        }
         updateItems()
     });
 
 }
 
+//footer buttons
+const footerbtns = document.querySelector('footer')
+footerbtns.addEventListener('click', function(e){
+    const todos = document.querySelectorAll('.todo')
+    switch (e.target.innerHTML) {
+        case 'All':
+            todos.forEach(item =>{
+                item.style.display = 'flex'
+            })
+            break;
+        case 'Active':
+            todos.forEach(item =>{
+                item.style.display = 'flex'
+                if(item.classList.contains('complete')){
+                    item.style.display = 'none'
+                }
+            })
+            break;
+        case 'Completed':
+            todos.forEach(item =>{
+                if(document.querySelectorAll('.complete').length == 0){
+                    console.log('lesasa')
+                    return
+                }
+                item.style.display = 'flex'
+                if(!item.classList.contains('complete')){
+                    item.style.display = 'none'
+                }
+            })
+            break;
+        case 'Clear Completed':
+            todos.forEach(item =>{
+                item.style.display = 'flex'
+                if(item.classList.contains('complete')){
+                    item.remove()
+                }
+            })
+            break;
+    }
+})
 
