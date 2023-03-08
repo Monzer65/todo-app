@@ -11,30 +11,29 @@
   <div class="wrapper">
     <header>
       <h2 id="title">Todo</h2>
-      <img id="theme-switch" src="images/icon-moon.svg" alt="">
+      <img id="theme-switcher" src="images/icon-moon.svg" alt="">
     </header>
-    <div class="add-new-todo-container">
+    <div class="input-container">
       <label class="todo add-todo-btn">
         <input type="checkbox"  class="chk" onclick="handleTodo()">
         <span class="checkmark"><img src="images/icon-check.svg" alt=""></span>
       </label>
-      <input type="text" class="new-todo-text" placeholder="Create a new todo...">
+      <input type="text" class="input-text" placeholder="Create a new todo...">
     </div>
-
     <div class="container">
       <ul class="todo-list"></ul>
       <footer>
         <div class="items-left">
           <p><span id="items-left">  </span>items left</p>
         </div>
-          <div class="show-todos">
-            <p>All</p>
-            <p>Active</p>
-            <p>Completed</p>
-          </div>
-          <div class="clear">
-            <p>Clear Completed</p>
-          </div>
+        <div class="show-todos">
+          <p>All</p>
+          <p>Active</p>
+          <p>Completed</p>
+        </div>
+        <div class="clear">
+          <p>Clear Completed</p>
+        </div>
       </footer>
     </div>
     <p class="drag">Drag and drop to reoder list</p>

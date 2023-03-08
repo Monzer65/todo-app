@@ -1,14 +1,14 @@
-const themeSwitch = document.querySelector('#theme-switch');
-const todoInput = document.querySelector('.new-todo-text');
+const themeSwitcher = document.querySelector('#theme-switcher');
+const todoInput = document.querySelector('.input-text');
 const todoList = document.querySelector('.todo-list');
 const itemsLeft = document.querySelector('.items-left');
 const addTodoBtn = document.querySelector('.chk')
 
-themeSwitch.addEventListener('click', () =>{
+themeSwitcher.addEventListener('click', () =>{
     if(document.body.classList.contains('dark')){
-        themeSwitch.src = 'images/icon-moon.svg';
+        themeSwitcher.src = 'images/icon-moon.svg';
     }else{
-        themeSwitch.src = 'images/icon-sun.svg';
+        themeSwitcher.src = 'images/icon-sun.svg';
     }
     document.body.classList.toggle('dark');
 });
@@ -32,9 +32,6 @@ function handleTodo(){
     if(todoInput.value == ''){
         return
     };
-
-    // let newHr = document.createElement('hr');
-    // newHr.className = 'new-hr';
     let newTodo = document.createElement('label');
     newTodo.className = 'todo';
     newTodo.setAttribute('draggable', 'true');
@@ -42,35 +39,13 @@ function handleTodo(){
     ${todoInput.value}
     <input type="checkbox" class='chk'>
     <span class="checkmark"><img src="images/icon-check.svg" alt=""></span>
-    <img class="delete" src="images/icon-cross.svg" alt="">
-    <div class='new-hr'></div>
+    <img class="delete-btn" src="images/icon-cross.svg" alt="">
+    <div class='horizontal-border'></div>
     `;
-    // newTodo.appendChild(newHr);
     todoList.append(newTodo);
-    todoInput.value = ''
+    todoInput.value = '';
     allItems.push(1);
     updateItems()
-    // darg & drop
-    newTodo.addEventListener('dragstart', handleDragStart);
-    newTodo.addEventListener('dragover', handleDragOver);
-    newTodo.addEventListener('drop', handleDrop);
-    function handleDragStart(e) {
-        dragSrcEl = this;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.innerHTML);
-    }
-    function handleDragOver(e) {
-        e.preventDefault();
-        return false;
-    }
-    function handleDrop(e) {
-        e.stopPropagation();
-        if (dragSrcEl !== this) {
-            dragSrcEl.innerHTML = this.innerHTML;
-            this.innerHTML = e.dataTransfer.getData('text/html');
-          }        
-        return false;
-    };
     
     // complete todo
     let checkBox = newTodo.querySelector(".chk");
@@ -87,7 +62,7 @@ function handleTodo(){
     });
     
     // delete todo
-    let deleteBtn = newTodo.querySelector('.delete')
+    let deleteBtn = newTodo.querySelector('.delete-btn')
     deleteBtn.addEventListener('click', ()=>{
         deleteBtn.parentElement.remove()
         if(newTodo.classList.contains('complete')){
@@ -98,13 +73,22 @@ function handleTodo(){
         }
         updateItems()
     });
-
-}
+    slist(sortableList);
+};
 
 //footer buttons
 const footerbtns = document.querySelector('footer')
+const showTodosBtns = footerbtns.querySelectorAll('.show-todos p')
+showTodosBtns[0].classList.add('active')
+
 footerbtns.addEventListener('click', function(e){
     const todos = document.querySelectorAll('.todo')
+        showTodosBtns.forEach(item =>{
+            if(item.classList.contains('active')){
+                item.classList.remove('active')
+            }
+            e.target.classList.add('active')
+        });
     switch (e.target.innerHTML) {
         case 'All':
             todos.forEach(item =>{
@@ -140,5 +124,61 @@ footerbtns.addEventListener('click', function(e){
             })
             break;
     }
-})
+});
 
+
+// darg & drop
+const sortableList = document.querySelector(".todo-list");
+function slist (target) {
+    // (A) SET CSS + GET ALL LIST ITEMS
+    target.classList.add("slist");
+    let items = target.getElementsByTagName("label"), current = null;
+  
+    // (B) MAKE ITEMS DRAGGABLE + SORTABLE
+    for (let i of items) {
+      // (B1) ATTACH DRAGGABLE
+      i.draggable = true;
+      
+      // (B2) DRAG START - YELLOW HIGHLIGHT DROPZONES
+      i.ondragstart = e => {
+        current = i;
+        for (let it of items) {
+          if (it != current) { it.classList.add("hint"); }
+        }
+      };
+      
+      // (B3) DRAG ENTER - RED HIGHLIGHT DROPZONE
+      i.ondragenter = e => {
+        if (i != current) { i.classList.add("active"); }
+      };
+  
+      // (B4) DRAG LEAVE - REMOVE RED HIGHLIGHT
+      i.ondragleave = () => i.classList.remove("active");
+  
+      // (B5) DRAG END - REMOVE ALL HIGHLIGHTS
+      i.ondragend = () => { for (let it of items) {
+          it.classList.remove("hint");
+          it.classList.remove("active");
+      }};
+   
+      // (B6) DRAG OVER - PREVENT THE DEFAULT "DROP", SO WE CAN DO OUR OWN
+      i.ondragover = e => e.preventDefault();
+   
+      // (B7) ON DROP - DO SOMETHING
+      i.ondrop = e => {
+        e.preventDefault();
+        if (i != current) {
+          let currentpos = 0, droppedpos = 0;
+          for (let it=0; it<items.length; it++) {
+            if (current == items[it]) { currentpos = it; }
+            if (i == items[it]) { droppedpos = it; }
+          }
+          if (currentpos < droppedpos) {
+            i.parentNode.insertBefore(current, i.nextSibling);
+          } else {
+            i.parentNode.insertBefore(current, i);
+          }
+        }
+      };
+    }
+  }

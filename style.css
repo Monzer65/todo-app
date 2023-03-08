@@ -30,13 +30,13 @@ header #title{
     letter-spacing: .925rem;
     margin-top: .1rem;
 }
-header #theme-switch{
+header #theme-switcher{
     max-width: 32px;
     max-height: 32px;
     margin-top: -.3rem;
     cursor: pointer;
 }
-.add-new-todo-container{
+.input-container{
     display: flex;
     position: relative;
     padding: .1rem 0 0 1.25rem;
@@ -45,7 +45,7 @@ header #theme-switch{
     margin: 2.25rem 0 1.5rem;
     box-shadow: 0 1rem 1rem hsla(233, 11%, 84%, .3);
 }
-.new-todo-text{
+.input-text{
     font-family: 'Josefin Sans', sans-serif;  
     font-size: clamp(12px, 3vw, 18px);
     color: hsl(235, 19%, 35%);
@@ -84,6 +84,14 @@ header #theme-switch{
     user-select: none;
     padding: 1.25rem 0 1.2rem 3.25rem;
 }
+.todo.hint {
+    border: 1px solid #ffc49a;
+    background: #feffb4;
+}
+.todo.active {
+    border: 1px solid #ffa5a5;
+    background: #ffe7e7;
+}
 .todo.complete{
     text-decoration:line-through;
     color: rebeccapurple;
@@ -101,11 +109,9 @@ header #theme-switch{
     left: 1.8%;
     height: 1.5rem;
     width: 1.5rem;
-    /* background-color: white; */
     border: 1px solid hsl(236, 33%, 92%);
     border-radius: 100%;
 }
-.new-todo:hover input ~ .checkmark::before,
 .todo:hover input ~ .checkmark::before{
     content: "";
     position: absolute;
@@ -131,23 +137,22 @@ header #theme-switch{
 .todo input:checked ~ .checkmark img{
     display: block;
 }
-.delete{
+.delete-btn{
     display: none;
     position: absolute;
     right: 0;
     z-index: 2;
 }
-.todo:hover .delete{
+.todo:hover .delete-btn{
     display: block;
 }
-.new-hr{
+.horizontal-border{
     position: absolute;
-    width: 106%;
+    width: calc(100% + 2rem);
     bottom: 0;
     left: -1rem;
     right: 0;
     border-bottom: 1px solid hsl(236, 33%, 92%);
-    /* margin: .1rem -1rem; */
 }
 footer{
     display: flex;
@@ -169,7 +174,7 @@ footer p:hover{
     margin-left: 1.5rem;
     gap: 1rem;
 }
-.show-todos p:active{
+.show-todos p.active{
     color: hsl(220, 98%, 61%);
 }
 .drag{
@@ -179,15 +184,14 @@ footer p:hover{
     margin-top: 3.25rem;
 }
 
-
-
+/* dark theme style */
 body.dark{
     background: url(images/bg-desktop-dark.jpg) no-repeat hsl(235, 21%, 11%);
 }
-body.dark .add-new-todo-container{
+body.dark .input-container{
     background-color: hsl(235, 24%, 19%);
 }
-body.dark .new-todo-text{
+body.dark .input-text{
     color: hsl(234, 39%, 85%);
     background-color: hsl(235, 24%, 19%);
 }
@@ -201,7 +205,7 @@ body.dark .todo{
 body.dark .checkmark{
     border-color: hsl(237, 14%, 26%);
 }
-body.dark hr{
+body.dark .horizontal-border{
     border-color: hsl(237, 14%, 26%);
 }
 body.dark footer{
@@ -210,6 +214,7 @@ body.dark footer{
 body.dark .drag{
     color: hsl(234, 11%, 52%);
 }
+
 @media screen and (max-width:769px) {
     body{
         background: url(images/bg-mobile-light.jpg) no-repeat;
@@ -224,16 +229,16 @@ body.dark .drag{
         font-size: clamp(1.65rem, 6vw, 2.5rem);
         letter-spacing: .65rem;
     }
-    header #theme-switch{
+    header #theme-switcher{
         max-width: 1.25rem;
         max-height: 1.25rem;
     }
-    .add-new-todo-container{
+    .input-container{
         padding: 0;
         padding-left: 1rem;
         margin: 2.1rem 0 1rem;
     }
-    .new-todo-text{
+    .input-text{
         padding: 1rem 0;
         margin-top: .15rem;
         border-radius: 10px;
@@ -249,7 +254,7 @@ body.dark .drag{
         left: 25%;
         max-width: 50%;
     }
-    .delete{
+    .delete-btn{
         max-width: clamp(.5rem, 3.25vw, 1rem);
     }
     footer{
@@ -261,14 +266,14 @@ body.dark .drag{
         position: absolute;
         font-size: clamp(14px, 3.25vw, 15px);
         bottom: -140% ;
-        left: -5%;
+        left: -2.5%;
         right: 0;
         margin: 0;
         padding: 0;
         justify-content: center;
         align-items: center;
         background-color: white;
-        width: 110%;
+        width: 105%;
         height: 3rem;
         border-radius: 5px;
         box-shadow: 0 2rem 2rem hsla(233, 11%, 84%, .5);
