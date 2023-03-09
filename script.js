@@ -129,32 +129,32 @@ footerbtns.addEventListener('click', function(e){
 function dragAndDrop (list) {
     let todoItems = list.getElementsByTagName("li"), current = null;
     // drag
-    for (let i of todoItems) {
-      i.ondragstart = e => {
-        current = i;
+    for (let item of todoItems) {
+      item.ondragstart = e => {
+        current = item;
       };
-      i.ondragenter = e => {
-        if (i != current) { i.classList.add("active"); }
+      item.ondragenter = e => {
+        if (item != current) { item.classList.add("active"); }
       };
-      i.ondragleave = () => i.classList.remove("active");
-      i.ondragend = () => { for (let it of todoItems) {
-          it.classList.remove("active");
+      item.ondragleave = () => item.classList.remove("active");
+      item.ondragend = () => { for (let i of todoItems) {
+          i.classList.remove("active");
       }};
-      i.ondragover = e => e.preventDefault();
+      item.ondragover = e => e.preventDefault();
    
       // drop
-      i.ondrop = e => {
+      item.ondrop = e => {
         e.preventDefault();
-        if (i != current) {
+        if (item != current) {
           let currentpos = 0, droppedpos = 0;
-          for (let it=0; it<todoItems.length; it++) {
-            if (current == todoItems[it]) { currentpos = it; }
-            if (i == todoItems[it]) { droppedpos = it; }
+          for (let i=0; i<todoItems.length; i++) {
+            if (current == todoItems[i]) { currentpos = i; }
+            if (item == todoItems[i]) { droppedpos = i; }
           }
           if (currentpos < droppedpos) {
-            i.parentNode.insertBefore(current, i.nextSibling);
+            item.parentNode.insertBefore(current, item.nextSibling);
           } else {
-            i.parentNode.insertBefore(current, i);
+            item.parentNode.insertBefore(current, item);
           }
         }
       };
