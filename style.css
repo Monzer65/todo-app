@@ -13,7 +13,7 @@ body{
     padding: 4.5rem 2.5rem;
 }
 .wrapper{
-    max-width: 541px;
+    max-width: 540px;
     margin: auto;
 }
 header{
@@ -39,11 +39,43 @@ header #theme-switcher{
 .input-container{
     display: flex;
     position: relative;
-    padding: .1rem 0 0 1.25rem;
+    padding: 0 .1rem 0 1.5rem;
     border-radius: 5px;
     background-color: white;
     margin: 2.25rem 0 1.5rem;
     box-shadow: 0 1rem 1rem hsla(233, 11%, 84%, .3);
+}
+.add-btn{
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    cursor: pointer;
+}
+.add-btn .input-checkmark{
+    position: absolute;
+    height: 1.55rem;
+    width: 1.55rem;
+    border: 1px solid hsl(236, 33%, 92%);
+    border-radius: 100%;
+}
+.add-btn .input-checkbox{
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+.add-btn:hover input ~ .input-checkmark::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px; 
+    background:linear-gradient(145deg, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    border-radius: 100%;
+    -webkit-mask: 
+     linear-gradient(#fff 0 0) content-box, 
+     linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude; 
 }
 .input-text{
     font-family: 'Josefin Sans', sans-serif;  
@@ -52,26 +84,33 @@ header #theme-switcher{
     width: 100%;
     border: none;
     outline: none;
-    padding: 1.25rem 0;
+    padding: 1.35rem 0;
+    margin-left: 3rem;
     cursor: pointer;
-    margin-top: .1rem;
-}​
-.checkmark img{
-    position: absolute;
-    top: 30%;
-    left: 30%;
-    display: none;
 }
-.container{
+
+.todos-container{
     background-color: white;
     width: 100%;
     border-radius: 5px;
-    padding: 0 1rem;
     box-shadow: 0 2rem 2rem hsla(233, 11%, 84%, .5);
 }
 .todo-list{
     display: flex;
     flex-direction: column-reverse;
+}
+.todo-item{
+    list-style: none;
+}
+/* .todo-item.hint {
+    background: #feffb4;
+} */
+.todo-item.active {
+    background: hsl(236, 33%, 92%);
+}
+.todo-item.complete .text{
+    text-decoration:line-through;
+    color: hsl(233, 11%, 84%);
 }
 .todo{
     display: flex;
@@ -82,19 +121,7 @@ header #theme-switcher{
     position:relative;
     cursor: pointer;
     user-select: none;
-    padding: 1.25rem 0 1.2rem 3.25rem;
-}
-.todo.hint {
-    border: 1px solid #ffc49a;
-    background: #feffb4;
-}
-.todo.active {
-    border: 1px solid #ffa5a5;
-    background: #ffe7e7;
-}
-.todo.complete{
-    text-decoration:line-through;
-    color: rebeccapurple;
+    padding: 1.28rem 1rem 1.28rem 2rem;
 }
 .todo input{
     position: absolute;
@@ -106,9 +133,9 @@ header #theme-switcher{
 .checkmark{
     position: absolute;
     top:30%;
-    left: 1.8%;
-    height: 1.5rem;
-    width: 1.5rem;
+    left: 1.5rem;
+    height: 1.55rem;
+    width: 1.55rem;
     border: 1px solid hsl(236, 33%, 92%);
     border-radius: 100%;
 }
@@ -137,28 +164,28 @@ header #theme-switcher{
 .todo input:checked ~ .checkmark img{
     display: block;
 }
+.text{
+    margin-left: 2.75rem;
+}
 .delete-btn{
     display: none;
     position: absolute;
+    margin-right: 1.5rem;
     right: 0;
     z-index: 2;
 }
 .todo:hover .delete-btn{
     display: block;
 }
-.horizontal-border{
-    position: absolute;
-    width: calc(100% + 2rem);
-    bottom: 0;
-    left: -1rem;
-    right: 0;
+hr{
+    border: none;
     border-bottom: 1px solid hsl(236, 33%, 92%);
 }
 footer{
     display: flex;
     justify-content: space-between;
     font-size: clamp(12px, 3vw, 13px);
-    padding: 1rem .5rem;
+    padding: 1rem 1.5rem;
     color: hsl(236, 9%, 61%);
 }
 footer p{
@@ -167,17 +194,17 @@ footer p{
 footer p:hover{
     color: hsl(235, 19%, 35%);
 }
-.show-todos{
+.active-completed-todos{
     font-weight: 700;
     font-size: clamp(10px, 3vw, 14px);
     display: flex;
     margin-left: 1.5rem;
     gap: 1rem;
 }
-.show-todos p.active{
+.active-completed-todos p.active{
     color: hsl(220, 98%, 61%);
 }
-.drag{
+.bottom-text{
     font-size: 14px;
     color: hsl(236, 9%, 61%);
     text-align: center;
@@ -195,25 +222,41 @@ body.dark .input-text{
     color: hsl(234, 39%, 85%);
     background-color: hsl(235, 24%, 19%);
 }
-body.dark .container{
+body.dark .todos-container{
     background-color: hsl(235, 24%, 19%);
     box-shadow: 0 2rem 2rem hsla(235, 21%, 11%, .5);
+}
+body.dark .todo-item.complete .text{
+    color: hsl(233, 14%, 35%);
+}
+body.dark .todo-item.active {
+    background: hsl(233, 14%, 35%);
 }
 body.dark .todo{
     color: hsl(234, 39%, 85%);
 }
+body.dark .input-checkmark{
+    border-color: hsl(237, 14%, 26%);
+}
 body.dark .checkmark{
     border-color: hsl(237, 14%, 26%);
 }
-body.dark .horizontal-border{
+body.dark hr{
     border-color: hsl(237, 14%, 26%);
 }
 body.dark footer{
     color: hsl(234, 11%, 52%);
 }
-body.dark .drag{
+body.dark .active-completed-todos p:hover{
+    color: hsl(236, 33%, 92%);
+}
+body.dark .clear p:hover{
+    color: hsl(236, 33%, 92%);
+}
+body.dark .bottom-text{
     color: hsl(234, 11%, 52%);
 }
+
 
 @media screen and (max-width:769px) {
     body{
@@ -235,7 +278,7 @@ body.dark .drag{
     }
     .input-container{
         padding: 0;
-        padding-left: 1rem;
+        padding-left: 1.28rem;
         margin: 2.1rem 0 1rem;
     }
     .input-text{
@@ -259,30 +302,29 @@ body.dark .drag{
     }
     footer{
         position: relative;
-        padding: 1rem 0;
+        padding: 1rem 1.5rem;
         margin: 0;
     }
-    .show-todos{
+    .active-completed-todos{
         position: absolute;
         font-size: clamp(14px, 3.25vw, 15px);
         bottom: -140% ;
-        left: -2.5%;
         right: 0;
         margin: 0;
         padding: 0;
         justify-content: center;
         align-items: center;
         background-color: white;
-        width: 105%;
+        width: 100%;
         height: 3rem;
         border-radius: 5px;
         box-shadow: 0 2rem 2rem hsla(233, 11%, 84%, .5);
     }
-    body.dark .show-todos{
+    body.dark .active-completed-todos{
         background-color: hsl(235, 24%, 19%);
         box-shadow: 0 2rem 2rem hsla(235, 21%, 11%, .5);
     }
-    .drag{
+    .bottom-text{
         margin: 6.5rem auto 1.25rem;
     }
 }
